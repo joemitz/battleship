@@ -7,4 +7,4 @@ app.use(express.static(`${root}/client/`));
 
 app.listen(port, () => {
   console.log(`Listening at 127.0.0.1:${port}`);
-})
+});
