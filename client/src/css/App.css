@@ -1,5 +1,8 @@
 html, body {
-  background-color: #0a366f;
+  background-color: #33527b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .app {
