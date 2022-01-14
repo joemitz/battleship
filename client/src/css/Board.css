@@ -9,6 +9,21 @@ table, td {
   border: 3px solid;
 }
 
+table, td {
+  text-align: center;
+  height: 50px;
+  width: 50px;
+}
+
+.hovered {
+  background-color: antiquewhite;
+}
+
+.placed {
+  background-color: crimson;
+}
+/*
 td:hover {
   background-color: antiquewhite;
 }
+*/

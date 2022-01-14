@@ -8,7 +8,11 @@ class App extends Component {
     this.state = {
       player: 1,
       board: {},
-      square: ''
+      square: '',
+      piece: 3,
+      orientation: 'horizontal',
+      hoverPiece: [],
+      placedPieces: []
     };
     this.board = {};
   }
@@ -23,22 +27,72 @@ class App extends Component {
     this.setState({board: this.board});
   }
 
-  handleClick(square) {
-    if (this.state.player === 1) {
-      this.setState({player: 2});
+  // handleClick(square) {
+  //   if (this.state.player === 1) {
+  //     this.setState({player: 2});
+  //   } else {
+  //     this.setState({player: 1});
+  //   }
+  //   this.setState({square: square});
+  //   this.board[square] = 'X';
+  //   this.setState({board: this.board});
+  // }
+
+  handlePlace(square) {
+    let placedPieces = this.state.placedPieces;
+    let x = square.substring(1);
+    let y = square.substring(0, 1);
+
+    if (this.state.orientation === 'horizontal') {
+      for (let i = 0; i < this.state.piece; i++) {
+        placedPieces.push(y + x);
+        y = String.fromCharCode(y.charCodeAt(0) + 1);
+      }
     } else {
-      this.setState({player: 1});
+      for (let i = 0; i < this.state.piece; i++) {
+        placedPieces.push(y + x);
+        x++;
+      }
     }
-    this.setState({square: square});
-    this.board[square] = 'X';
-    this.setState({board: this.board});
+    this.setState({
+      placePieces: placedPieces
+    })
+  }
+
+  handleHover(square) {
+    let hoverPiece = [];
+    let x = square.substring(1);
+    let y = square.substring(0, 1);
+
+    if (this.state.orientation === 'horizontal') {
+      for (let i = 0; i < this.state.piece; i++) {
+        hoverPiece.push(y + x);
+        y = String.fromCharCode(y.charCodeAt(0) + 1);
+      }
+    } else {
+      for (let i = 0; i < this.state.piece; i++) {
+        hoverPiece.push(y + x);
+        x++;
+      }
+    }
+
+    this.setState({
+      hoverPiece: hoverPiece
+    });
   }
 
   render() {
     return(
       <div className='App'>
-        <Board onClick={this.handleClick.bind(this)} player={this.state.player}
-               square={this.state.square} board={this.state.board}/>
+        <Board player={this.state.player}
+               square={this.state.square}
+               onHover={this.handleHover.bind(this)}
+               board={this.state.board}
+               piece={this.state.piece}
+               hoverPiece={this.state.hoverPiece}
+               placedPieces={this.state.placedPieces}
+               onPlace={this.handlePlace.bind(this)}
+        />
       </div>
     );
   }
