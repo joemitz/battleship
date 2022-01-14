@@ -7,7 +7,7 @@ const Board = (props) => {
 
   return (
     <div id='board'>
-      <table>
+      <table onMouseOut={props.onMouseOut}>
         {rows.map((row) => {
           return (
           <tr>
@@ -41,7 +41,6 @@ const Board = (props) => {
           </tr>)
         })}
       </table>
-      <p>{props.square.toUpperCase()}</p>
     </div>
   );
 };

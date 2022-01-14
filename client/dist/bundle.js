@@ -140,9 +140,8 @@ var App = /*#__PURE__*/function (_Component) {
     _this.state = {
       player: 1,
       board: {},
-      square: '',
-      piece: 3,
-      orientation: 'horizontal',
+      piece: 2,
+      orientation: 'vertical',
       hoverPiece: [],
       placedPieces: []
     };
@@ -164,17 +163,7 @@ var App = /*#__PURE__*/function (_Component) {
       this.setState({
         board: this.board
       });
-    } // handleClick(square) {
-    //   if (this.state.player === 1) {
-    //     this.setState({player: 2});
-    //   } else {
-    //     this.setState({player: 1});
-    //   }
-    //   this.setState({square: square});
-    //   this.board[square] = 'X';
-    //   this.setState({board: this.board});
-    // }
-
+    }
   }, {
     key: "handlePlace",
     value: function handlePlace(square) {
@@ -182,7 +171,7 @@ var App = /*#__PURE__*/function (_Component) {
       var x = square.substring(1);
       var y = square.substring(0, 1);
 
-      if (this.state.orientation === 'horizontal') {
+      if (this.state.orientation === 'vertical') {
         for (var i = 0; i < this.state.piece; i++) {
           placedPieces.push(y + x);
           y = String.fromCharCode(y.charCodeAt(0) + 1);
@@ -205,7 +194,7 @@ var App = /*#__PURE__*/function (_Component) {
       var x = square.substring(1);
       var y = square.substring(0, 1);
 
-      if (this.state.orientation === 'horizontal') {
+      if (this.state.orientation === 'vertical') {
         for (var i = 0; i < this.state.piece; i++) {
           hoverPiece.push(y + x);
           y = String.fromCharCode(y.charCodeAt(0) + 1);
@@ -222,19 +211,26 @@ var App = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "handleMouseOut",
+    value: function handleMouseOut() {
+      this.setState({
+        hoverPiece: []
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "App"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Board__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        player: this.state.player,
-        square: this.state.square,
         onHover: this.handleHover.bind(this),
+        onPlace: this.handlePlace.bind(this),
+        onMouseOut: this.handleMouseOut.bind(this),
+        player: this.state.player,
         board: this.state.board,
         piece: this.state.piece,
         hoverPiece: this.state.hoverPiece,
-        placedPieces: this.state.placedPieces,
-        onPlace: this.handlePlace.bind(this)
+        placedPieces: this.state.placedPieces
       }));
     }
   }]);
@@ -269,7 +265,9 @@ var Board = function Board(props) {
   var cols = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "board"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, rows.map(function (row) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    onMouseOut: props.onMouseOut
+  }, rows.map(function (row) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, cols.map(function (col) {
       if (props.hoverPiece.includes(row + col)) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -293,7 +291,7 @@ var Board = function Board(props) {
         }, props.board[row + col]);
       }
     }));
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, props.square.toUpperCase()));
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Board);

@@ -8,9 +8,8 @@ class App extends Component {
     this.state = {
       player: 1,
       board: {},
-      square: '',
-      piece: 3,
-      orientation: 'horizontal',
+      piece: 2,
+      orientation: 'vertical',
       hoverPiece: [],
       placedPieces: []
     };
@@ -27,23 +26,12 @@ class App extends Component {
     this.setState({board: this.board});
   }
 
-  // handleClick(square) {
-  //   if (this.state.player === 1) {
-  //     this.setState({player: 2});
-  //   } else {
-  //     this.setState({player: 1});
-  //   }
-  //   this.setState({square: square});
-  //   this.board[square] = 'X';
-  //   this.setState({board: this.board});
-  // }
-
   handlePlace(square) {
     let placedPieces = this.state.placedPieces;
     let x = square.substring(1);
     let y = square.substring(0, 1);
 
-    if (this.state.orientation === 'horizontal') {
+    if (this.state.orientation === 'vertical') {
       for (let i = 0; i < this.state.piece; i++) {
         placedPieces.push(y + x);
         y = String.fromCharCode(y.charCodeAt(0) + 1);
@@ -64,7 +52,7 @@ class App extends Component {
     let x = square.substring(1);
     let y = square.substring(0, 1);
 
-    if (this.state.orientation === 'horizontal') {
+    if (this.state.orientation === 'vertical') {
       for (let i = 0; i < this.state.piece; i++) {
         hoverPiece.push(y + x);
         y = String.fromCharCode(y.charCodeAt(0) + 1);
@@ -75,23 +63,28 @@ class App extends Component {
         x++;
       }
     }
-
     this.setState({
       hoverPiece: hoverPiece
     });
   }
 
+  handleMouseOut() {
+    this.setState({
+      hoverPiece: []
+    })
+  }
+
   render() {
     return(
       <div className='App'>
-        <Board player={this.state.player}
-               square={this.state.square}
-               onHover={this.handleHover.bind(this)}
+        <Board onHover={this.handleHover.bind(this)}
+               onPlace={this.handlePlace.bind(this)}
+               onMouseOut={this.handleMouseOut.bind(this)}
+               player={this.state.player}
                board={this.state.board}
                piece={this.state.piece}
                hoverPiece={this.state.hoverPiece}
                placedPieces={this.state.placedPieces}
-               onPlace={this.handlePlace.bind(this)}
         />
       </div>
     );
